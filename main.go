@@ -28,7 +28,7 @@ func main() {
 			default:
 				errmsg = fmt.Sprint(err)
 			}
-			fmt.Fprintln(os.Stderr, errmsg)
+			os.Stderr.WriteString(errmsg)
 			os.Exit(1)
 		}
 	}()
@@ -78,7 +78,7 @@ func main() {
 		Exec: []string{"latexmk", "bot.tex"},
 	})
 	stream.Send(&texc_pb.Input{
-		Exec: []string{"pdfcrop", "--margins", "30 30 30 30", "bot.pdf", "bot.pdf"},
+		Exec: []string{"pdfcrop", "--margins", "10 10 10 10", "bot.pdf", "bot.pdf"},
 	})
 	stream.Send(&texc_pb.Input{
 		Exec: []string{"pdftoppm", "-singlefile", "-jpeg", "-r", "400", "bot.pdf", "bot"},
