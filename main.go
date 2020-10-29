@@ -102,7 +102,11 @@ func main() {
 				if i == -1 {
 					panic(body_str)
 				}
-				panic(body_str[i:])
+				j := strings.Index(body_str, "No pages of output.")
+				if j == -1 {
+					panic(body_str[i:])
+				}
+				panic(body_str[i:j])
 			}
 			panic(err)
 		}
@@ -120,7 +124,11 @@ func main() {
 		if i == -1 {
 			panic(body_str)
 		}
-		panic(body_str[i:])
+		j := strings.Index(body_str, "No pages of output.")
+		if j == -1 {
+			panic(body_str[i:])
+		}
+		panic(body_str[i:j])
 	}
 	jpeg_data := bytes.NewBuffer([]byte{})
 	tar_reader := tar.NewReader(tar_dl_data)
