@@ -4,6 +4,7 @@ import (
 	"archive/tar"
 	"bytes"
 	"context"
+	"flag"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -32,6 +33,9 @@ func main() {
 			os.Exit(1)
 		}
 	}()
+
+	margin := flag.String("margins", "10 10 10 10", "Specify the margins")
+	flag.Parse()
 
 	//標準入力から全てバイト列で読み込む
 	tex_code, err := ioutil.ReadAll(os.Stdin)
@@ -78,7 +82,7 @@ func main() {
 		Exec: []string{"latexmk", "bot.tex"},
 	})
 	stream.Send(&texc_pb.Input{
-		Exec: []string{"pdfcrop", "--margins", "10 10 10 10", "bot.pdf", "bot.pdf"},
+		Exec: []string{"pdfcrop", "--margins", *margin, "bot.pdf", "bot.pdf"},
 	})
 	stream.Send(&texc_pb.Input{
 		Exec: []string{"pdftoppm", "-singlefile", "-jpeg", "-r", "400", "bot.pdf", "bot"},
